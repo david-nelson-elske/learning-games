@@ -1,0 +1,9 @@
+{
+  "about": "Lauren, the ElevenLabs voice of the maths videos, with the same settings, so the games and the videos sound alike.",
+  "voice_id": "DODLEQrClDo8wCz460ld",
+  "model_id": "eleven_v4",
+  "stability": 0.3,
+  "similarity": 0.75,
+  "seed": 1,
+  "output_format": "mp3_44100_64"
+}

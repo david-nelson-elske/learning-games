@@ -4,61 +4,71 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Tank Maths</title>
+<!-- Made by the maths game factory in factory/ from the theme "tanks". Edit the template or the theme, then run make.py. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Russo+One&family=Nunito:wght@600;800&display=swap">
 <style>
-  /* Layout: one screen, a glowing battlefield in the middle, the sum on top, big buttons below. Dark by design. */
+  /* Layout: one screen, a glowing field in the middle, the sum on top, big buttons below. Dark by design.
+     The theme sets the colours and fonts below. */
   :root {
     --bg: #071012;
     --field: #0c1a1c;
+    --field-glow: #0f2a2b;
     --ink: #e6fffb;
     --dim: #7fb8b1;
-    --teal: #2dd4bf;
-    --cyan: #22d3ee;
+    --accent: #2dd4bf;
+    --accent2: #22d3ee;
     --hi: #ccfbf1;
     --warn: #fbbf24;
     --display: "Russo One", "Arial Black", Impact, sans-serif;
     --body: "Nunito", "Segoe UI", system-ui, sans-serif;
+    --accent-rgb: 45, 212, 191;
+    --accent2-rgb: 34, 211, 238;
+    --warn-rgb: 251, 191, 36;
     color-scheme: dark;
   }
   html, body { height: 100%; }
   body {
-    background: var(--bg); color: var(--ink); font-family: var(--body);
+    background: var(--bg); color: var(--ink); font-family: var(--body); margin: 0;
     padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
     padding-block: 10px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; overflow: hidden;
   }
   header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; }
   h1 { font-family: var(--display); font-weight: 400; font-size: clamp(22px, 3.2vw, 34px); margin: 0; letter-spacing: 1px;
-    color: var(--teal); text-shadow: 0 0 14px rgba(45, 212, 191, .55); text-wrap: balance; }
+    color: var(--accent); text-shadow: 0 0 14px rgba(var(--accent-rgb), .55); text-wrap: balance; }
   .task { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
-  .task-text { font-weight: 800; font-size: clamp(15px, 2vw, 20px); background: rgba(45, 212, 191, .1);
-    border: 1px solid rgba(45, 212, 191, .4); border-radius: 999px; padding: 6px 14px; min-width: 0; }
-  .task-text.done { border-color: var(--warn); color: var(--warn); background: rgba(251, 191, 36, .1); }
+  .task-text { font: inherit; font-weight: 800; font-size: clamp(15px, 2vw, 20px); color: var(--ink);
+    background: rgba(var(--accent-rgb), .1); border: 1px solid rgba(var(--accent-rgb), .4); border-radius: 999px;
+    padding: 6px 14px; min-width: 0; min-height: 0; box-shadow: none; cursor: pointer; text-align: left; }
+  .task-text::before { content: "🔊 "; font-size: .85em; }
+  .task-text.done { border-color: var(--warn); color: var(--warn); background: rgba(var(--warn-rgb), .1); }
   .stars { font-family: var(--display); color: var(--warn); font-size: 20px; font-variant-numeric: tabular-nums; }
+  .mute { font-size: 20px; padding: 6px 10px; min-height: 40px; background: transparent; color: var(--accent);
+    border: 2px solid rgba(var(--accent-rgb), .5); box-shadow: none; }
   #stage { position: relative; flex: 1; min-height: 320px; border-radius: 18px; overflow: hidden;
-    background: radial-gradient(ellipse at 50% 60%, #0f2a2b 0%, var(--field) 55%, var(--bg) 100%); }
+    background: radial-gradient(ellipse at 50% 60%, var(--field-glow) 0%, var(--field) 55%, var(--bg) 100%); }
   #stage canvas { display: block; width: 100%; height: 100%; touch-action: none; }
   .sum { position: absolute; top: 10px; left: 0; right: 0; text-align: center; pointer-events: none;
     font-family: var(--display); font-size: clamp(30px, 6vw, 64px); color: var(--hi); letter-spacing: 2px;
-    text-shadow: 0 0 18px rgba(45, 212, 191, .8); font-variant-numeric: tabular-nums; }
-  .sum .op { color: var(--teal); }
+    text-shadow: 0 0 18px rgba(var(--accent-rgb), .8); font-variant-numeric: tabular-nums; }
+  .sum .op { color: var(--accent); }
   .say { position: absolute; top: clamp(48px, 7.5vw, 84px); left: 0; right: 0; text-align: center; pointer-events: none;
     font-weight: 800; font-size: clamp(15px, 2.2vw, 22px); color: var(--dim); min-height: 1.4em; }
   .count { position: absolute; transform: translate(-50%, -100%); pointer-events: none; font-family: var(--display);
-    font-size: clamp(36px, 6vw, 72px); color: var(--teal); text-shadow: 0 0 20px rgba(45, 212, 191, .9);
+    font-size: clamp(36px, 6vw, 72px); color: var(--accent); text-shadow: 0 0 20px rgba(var(--accent-rgb), .9);
     font-variant-numeric: tabular-nums; }
   .rel { position: absolute; transform: translate(-50%, -100%); pointer-events: none; font-family: var(--display);
-    font-size: clamp(30px, 5vw, 60px); color: var(--hi); text-shadow: 0 0 18px rgba(34, 211, 238, .9); }
-  .rel.equal { color: var(--warn); text-shadow: 0 0 22px rgba(251, 191, 36, .9); }
+    font-size: clamp(30px, 5vw, 60px); color: var(--hi); text-shadow: 0 0 18px rgba(var(--accent2-rgb), .9); }
+  .rel.equal { color: var(--warn); text-shadow: 0 0 22px rgba(var(--warn-rgb), .9); }
   .help { position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; color: var(--dim); font-size: 13px;
     pointer-events: none; padding-inline: 8px; }
   .controls { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-  button { font-family: var(--display); font-size: clamp(15px, 2vw, 19px); color: var(--bg); background: var(--teal);
-    border: 0; border-radius: 14px; padding: 12px 18px; cursor: pointer; box-shadow: 0 0 18px rgba(45, 212, 191, .45);
+  button { font-family: var(--display); font-size: clamp(15px, 2vw, 19px); color: var(--bg); background: var(--accent);
+    border: 0; border-radius: 14px; padding: 12px 18px; cursor: pointer; box-shadow: 0 0 18px rgba(var(--accent-rgb), .45);
     min-height: 48px; }
-  button.alt { background: transparent; color: var(--teal); border: 2px solid var(--teal); box-shadow: none; }
-  button.fire { background: var(--warn); box-shadow: 0 0 18px rgba(251, 191, 36, .5); }
+  button.alt { background: transparent; color: var(--accent); border: 2px solid var(--accent); box-shadow: none; }
+  button.act { background: var(--warn); box-shadow: 0 0 18px rgba(var(--warn-rgb), .5); }
   button:focus-visible { outline: 3px solid var(--hi); outline-offset: 3px; }
   button:active { transform: translateY(2px); }
   @media (max-width: 520px) { button { padding: 10px 12px; } .help { display: none; } }
@@ -66,10 +76,11 @@
 </head>
 <body>
 <header>
-  <h1>Tank Maths</h1>
+  <h1 id="title">Tank Maths</h1>
   <div class="task">
-    <span class="task-text" id="task">Make both sides equal</span>
+    <button class="task-text" id="task" type="button" title="Hear the challenge again"></button>
     <span class="stars" id="stars" aria-label="stars">★ 0</span>
+    <button class="mute" id="mute" type="button" aria-label="Voice on" title="Voice on or off">🔊</button>
   </div>
 </header>
 
@@ -83,18 +94,248 @@
 </div>
 
 <div class="controls">
-  <button id="buildL" type="button">+ Build left</button>
-  <button id="buildR" type="button">+ Build right</button>
-  <button id="fire" class="fire" type="button">Fire!</button>
+  <button id="addL" type="button">+ Build left</button>
+  <button id="addR" type="button">+ Build right</button>
+  <button id="act" class="act" type="button">Fire!</button>
   <button id="next" class="alt" type="button">New challenge</button>
   <button id="clear" class="alt" type="button">Clear</button>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
+/* Words: every sentence a maths game shows and says.
+ * The game page uses it to show and speak a line. make.py runs it in Node to list every line, so each one can be voiced.
+ * Written for old JavaScript engines on purpose: no optional chaining, no modules. */
+var WORDS = (function () {
+  var NAMES = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
+    'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
+  var MAX = 10;
+  // The numbers each challenge can ask for. The game picks from these, and make.py voices all of them.
+  var RANGES = {build: [2, 7], show: [1, 5], total: [3, 10], keep: [1, 3]};
+
+  // A theme can replace any of these. {things} is "tank" or "tanks" to match the number before it.
+  var LINES = {
+    sum: '{L} plus {R} equals {S}.',
+    takeAway: '{a} take away {k} is {b}.',
+    same: '{n} equals {n}.',
+    count: '{n} {things}.',
+    bigger: '{R} is bigger than {L}.',
+    only: 'Only {n} left.',
+    yes: ['Yes!', 'Well done!', 'You did it!'],
+    next: 'Tap New challenge for another one.',
+    full: 'That side is full. Ten is the most.',
+    empty: 'Build some {many} first!',
+    clear: 'All clear. Build some {many}!',
+    act: '{Many}, fire!',
+    taskEqual: 'Make both sides equal.',
+    taskBuild: 'Build {n} {things} on the left.',
+    taskShow: 'Show {a} plus {b}.',
+    taskTotal: 'Make {t} {things} in all.',
+    taskKeep: 'Blow up {many} until the right side has {n}.',
+    taskBigger: 'Make the right side bigger than the left.'
+  };
+  // Lines that are maths: on screen they show symbols, "3 + 2 = 5", and drop the full stop.
+  var MATH = {sum: 1, takeAway: 1, same: 1, bigger: 1, taskShow: 1};
+
+  function tpl(theme, key, i) {
+    var t = (theme.lines && theme.lines[key]) || LINES[key];
+    return Array.isArray(t) ? t[(i || 0) % t.length] : t;
+  }
+  function fill(text, vars, theme, spoken) {
+    var count = vars.n !== undefined ? vars.n : vars.t !== undefined ? vars.t : 2;
+    return text.replace(/\{(\w+)\}/g, function (m, k) {
+      if (k === 'things') return count === 1 ? theme.one : theme.many;
+      if (k === 'many') return theme.many;
+      if (k === 'Many') return theme.many.charAt(0).toUpperCase() + theme.many.slice(1);
+      if (k === 'one') return theme.one;
+      var v = vars[k];
+      if (typeof v !== 'number') return m;
+      return spoken ? NAMES[v] : String(v);
+    });
+  }
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+  function slug(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+
+  // One line: what the screen shows, what the voice says, and the name of its voice clip.
+  function line(theme, key, vars, i) {
+    var text = tpl(theme, key, i);
+    var speak = cap(fill(text, vars || {}, theme, true));
+    var show = fill(text, vars || {}, theme, false);
+    if (MATH[key]) {
+      show = show.replace(/ is bigger than /g, ' > ').replace(/ take away (\d+) is /g, ' − $1 = ')
+        .replace(/ plus /g, ' + ').replace(/ equals /g, ' = ');
+    }
+    show = show.replace(/\.$/, '');
+    return {show: show, speak: speak, clip: slug(speak)};
+  }
+
+  function range(r) { var out = []; for (var i = r[0]; i <= r[1]; i++) out.push(i); return out; }
+
+  // Every line the game can say, for make.py to voice.
+  function all(theme) {
+    var out = [], seen = {};
+    function add(l) { if (!seen[l.clip]) { seen[l.clip] = 1; out.push(l); } }
+    var nums = range([0, MAX]);
+    nums.forEach(function (L) { nums.forEach(function (R) { add(line(theme, 'sum', {L: L, R: R, S: L + R})); }); });
+    range([1, MAX]).forEach(function (a) {
+      range([1, a]).forEach(function (k) { add(line(theme, 'takeAway', {a: a, k: k, b: a - k})); });
+      add(line(theme, 'same', {n: a}));
+    });
+    nums.forEach(function (L) { nums.forEach(function (R) { if (R > L) add(line(theme, 'bigger', {L: L, R: R})); }); });
+    range(RANGES.build).forEach(function (n) { add(line(theme, 'taskBuild', {n: n})); add(line(theme, 'count', {n: n})); });
+    range(RANGES.show).forEach(function (a) { range(RANGES.show).forEach(function (b) { add(line(theme, 'taskShow', {a: a, b: b})); }); });
+    range(RANGES.total).forEach(function (t) { add(line(theme, 'taskTotal', {t: t})); });
+    range(RANGES.keep).forEach(function (n) { add(line(theme, 'taskKeep', {n: n})); add(line(theme, 'only', {n: n})); });
+    var yes = tpl(theme, 'yes', 0) === undefined ? [] : ((theme.lines && theme.lines.yes) || LINES.yes);
+    yes.forEach(function (y, i) { add(line(theme, 'yes', {}, i)); });
+    ['next', 'full', 'empty', 'clear', 'act', 'taskEqual', 'taskBigger'].forEach(function (k) { add(line(theme, k, {})); });
+    return out;
+  }
+
+  return {NAMES: NAMES, MAX: MAX, RANGES: RANGES, LINES: LINES, line: line, all: all, slug: slug};
+})();
+if (typeof module !== 'undefined') module.exports = WORDS;
+</script>
+<script>
+/* Theme: battle tanks. Tap one to blow it up; Fire! makes every tank shoot. */
+var THEME = {
+  id: 'tanks',
+  folder: 'maths/03-tank-maths-game',
+  title: 'Tank Maths',
+  one: 'tank',
+  many: 'tanks',
+  buttons: {addLeft: '+ Build left', addRight: '+ Build right', act: 'Fire!'},
+  help: 'Tap a tank to blow it up. Drag a tank to the other side. Build adds one.',
+  stageLabel: 'Two groups of battle tanks. Build, blow up or drag tanks to change the numbers.',
+  fonts: 'family=Russo+One&family=Nunito:wght@600;800',
+  colors: {
+    bg: '#071012', field: '#0c1a1c', fieldGlow: '#0f2a2b', ink: '#e6fffb', dim: '#7fb8b1',
+    accent: '#2dd4bf', accent2: '#22d3ee', hi: '#ccfbf1', warn: '#fbbf24', sky: '#99f6e4',
+    display: '"Russo One", "Arial Black", Impact, sans-serif', body: '"Nunito", "Segoe UI", system-ui, sans-serif'
+  },
+  lines: {},
+
+  build: function (THREE, kit) {
+    var C = kit.C;
+    var bodyMat = new THREE.MeshStandardMaterial({color: 0x15403d, roughness: 0.55, metalness: 0.25, emissive: 0x031413});
+    var darkMat = new THREE.MeshStandardMaterial({color: 0x0b2224, roughness: 0.8, metalness: 0.1});
+    var litMat = new THREE.MeshBasicMaterial({color: C.accent});
+    var hiMat = new THREE.MeshBasicMaterial({color: C.hi});
+    var shellGeo = new THREE.SphereGeometry(0.07, 8, 8);
+
+    // A plinth with a lit rim.
+    function ground() {
+      var g = new THREE.Group();
+      var plinth = new THREE.Mesh(new THREE.BoxGeometry(3.6, 0.14, 5.9), darkMat);
+      plinth.position.y = -0.07;
+      plinth.receiveShadow = true;
+      kit.withEdges(plinth, new THREE.LineBasicMaterial({color: C.accent, transparent: true, opacity: 0.8}));
+      g.add(plinth);
+      var glow = new THREE.Mesh(new THREE.PlaneGeometry(4.3, 6.6),
+        new THREE.MeshBasicMaterial({color: C.accent, transparent: true, opacity: 0.07, depthWrite: false}));
+      glow.rotation.x = -Math.PI / 2;
+      glow.position.y = -0.15;
+      g.add(glow);
+      return g;
+    }
+
+    // A battle tank, built along +x.
+    function make() {
+      var g = new THREE.Group();
+      function add(geo, mat, x, y, z, rot) {
+        var m = kit.withEdges(new THREE.Mesh(geo, mat));
+        m.position.set(x, y, z);
+        if (rot) m.rotation.set(rot[0], rot[1], rot[2]);
+        g.add(m);
+        return m;
+      }
+      add(new THREE.BoxGeometry(1.32, 0.26, 0.26), darkMat, 0, 0.13, 0.36);
+      add(new THREE.BoxGeometry(1.32, 0.26, 0.26), darkMat, 0, 0.13, -0.36);
+      add(new THREE.BoxGeometry(1.12, 0.24, 0.62), bodyMat, 0.0, 0.36, 0);
+      add(new THREE.BoxGeometry(0.26, 0.16, 0.6), bodyMat, 0.6, 0.31, 0, [0, 0, -0.65]);
+      var turret = add(new THREE.CylinderGeometry(0.26, 0.31, 0.2, 20), bodyMat, -0.08, 0.58, 0);
+      var gun = new THREE.Group();
+      gun.position.set(0.12, 0.6, 0);
+      var barrel = kit.withEdges(new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.05, 0.95, 12), bodyMat));
+      barrel.rotation.z = -Math.PI / 2;
+      barrel.position.x = 0.47;
+      gun.add(barrel);
+      var brake = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.13, 12), litMat);
+      brake.rotation.z = -Math.PI / 2;
+      brake.position.x = 0.98;
+      gun.add(brake);
+      g.add(gun);
+      add(new THREE.CylinderGeometry(0.07, 0.07, 0.05, 12), bodyMat, -0.15, 0.7, 0.08);
+      // the road wheels: lit hubs on both tracks
+      for (var i = 0; i < 5; i++) {
+        [0.5, -0.5].forEach(function (z) {
+          var hub = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.02, 10), litMat);
+          hub.rotation.x = Math.PI / 2;
+          hub.position.set(-0.5 + i * 0.25, 0.13, z);
+          g.add(hub);
+        });
+      }
+      // a lit stripe along each side of the hull
+      [0.312, -0.312].forEach(function (z) {
+        var s = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.03, 0.01), litMat);
+        s.position.set(0, 0.42, z);
+        g.add(s);
+      });
+      g.userData.rig = {gun: gun, turret: turret, recoil: 0};
+      return g;
+    }
+
+    function idle(t, now, dt) {
+      var r = t.userData.rig;
+      if (r.recoil) { r.recoil = Math.max(0, r.recoil - dt * 4); r.gun.position.x = 0.12 - 0.12 * r.recoil; }
+      var sway = Math.sin(now / 900 + t.id) * 0.06;
+      r.turret.rotation.y = sway; r.gun.rotation.y = sway;
+    }
+
+    // Fire!: a shell from the muzzle, a flash, a burst where it lands.
+    function act(t) {
+      var muzzle = new THREE.Vector3(1.1, 0.6, 0).applyMatrix4(t.matrixWorld);
+      var dir = new THREE.Vector3(1, 0, 0).applyQuaternion(t.quaternion);
+      var s = new THREE.Mesh(shellGeo, hiMat);
+      s.position.copy(muzzle);
+      kit.launch(s, dir.multiplyScalar(9).setY(2.2), {gravity: 6, life: 1.2, onLand: function (p) {
+        kit.burst(p.setY(0.1), 16, [C.accent, C.accent2, C.warn], 2.5);
+      }});
+      kit.burst(muzzle, 10, [C.hi, C.warn], 1.2);
+      t.userData.rig.recoil = 1;
+      kit.noise({len: 0.18, gain: 0.18});
+    }
+
+    // Blow up: gone at once, in squares of light.
+    function remove(t) {
+      kit.burst(t.position.clone().add(new THREE.Vector3(0, 0.4, 0)), 46, [C.accent, C.accent2, C.hi, C.warn]);
+      kit.flash(t.position, 3);
+      kit.shake(0.25);
+      return null;
+    }
+
+    return {
+      ground: ground, make: make, idle: idle, act: act, remove: remove, faceEachOther: false,
+      sounds: {
+        add: function () { kit.tone({f1: 220, f2: 440}); },
+        remove: function () { kit.noise({len: 0.5, gain: 0.5}); },
+        move: function () { kit.tone({f1: 330, f2: 660}); }
+      }
+    };
+  }
+};
+if (typeof module !== 'undefined') module.exports = THEME;
+</script>
+<script>
+// The voice clips in voice/, by name. A line with no clip is spoken by the browser's own voice.
+const CLIPS = new Set([]);
+</script>
+<script>
 (() => {
-  const MAX = 10;
-  const TEAL = 0x2dd4bf, CYAN = 0x22d3ee, HI = 0xccfbf1, GOLD = 0xfbbf24;
+  const T = THEME, W = WORDS;
+  const MAX = W.MAX;
+  const hex = (s) => parseInt(s.slice(1), 16);
+  const C = {accent: hex(T.colors.accent), accent2: hex(T.colors.accent2), hi: hex(T.colors.hi), warn: hex(T.colors.warn)};
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const $ = (id) => document.getElementById(id);
   const stage = $('stage');
@@ -109,15 +350,15 @@
   camera.position.set(20, 20, 20);
   camera.lookAt(0, 0.4, 0);
 
-  scene.add(new THREE.HemisphereLight(0x99f6e4, 0x041010, 0.65));
-  scene.add(new THREE.AmbientLight(0x2dd4bf, 0.18));
+  scene.add(new THREE.HemisphereLight(hex(T.colors.sky || '#99f6e4'), 0x041010, 0.65));
+  scene.add(new THREE.AmbientLight(C.accent, 0.18));
   const sun = new THREE.DirectionalLight(0xffffff, 0.85);
   sun.position.set(6, 14, 4);
   sun.castShadow = true;
   sun.shadow.mapSize.set(1024, 1024);
   Object.assign(sun.shadow.camera, {left: -10, right: 10, top: 10, bottom: -10});
   scene.add(sun);
-  const flashLight = new THREE.PointLight(CYAN, 0, 8);
+  const flashLight = new THREE.PointLight(C.accent2, 0, 8);
   scene.add(flashLight);
 
   // Screen right and screen up, on the ground.
@@ -126,152 +367,208 @@
   const PADX = 3.3;
   const padCenter = (side) => U.clone().multiplyScalar(side === 0 ? -PADX : PADX);
 
-  const bodyMat = new THREE.MeshStandardMaterial({color: 0x15403d, roughness: 0.55, metalness: 0.25, emissive: 0x031413});
-  const darkMat = new THREE.MeshStandardMaterial({color: 0x0b2224, roughness: 0.8, metalness: 0.1});
-  const litMat = new THREE.MeshBasicMaterial({color: TEAL});
-  const hiMat = new THREE.MeshBasicMaterial({color: HI});
-  const edgeMat = new THREE.LineBasicMaterial({color: TEAL, transparent: true, opacity: 0.55});
-
+  // ---------- The kit: what a theme may use to build things and effects
+  const edgeMat = new THREE.LineBasicMaterial({color: C.accent, transparent: true, opacity: 0.55});
   const withEdges = (mesh, mat = edgeMat) => {
     mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry, 28), mat));
     mesh.castShadow = true;
     return mesh;
   };
-
-  // The two pads: a plinth with a lit rim for each side.
-  [0, 1].forEach((side) => {
-    const g = new THREE.Group();
-    g.position.copy(padCenter(side));
-    const plinth = new THREE.Mesh(new THREE.BoxGeometry(3.6, 0.14, 5.9), darkMat);
-    plinth.position.y = -0.07;
-    plinth.receiveShadow = true;
-    withEdges(plinth, new THREE.LineBasicMaterial({color: TEAL, transparent: true, opacity: 0.8}));
-    g.add(plinth);
-    const glow = new THREE.Mesh(new THREE.PlaneGeometry(4.3, 6.6),
-      new THREE.MeshBasicMaterial({color: TEAL, transparent: true, opacity: 0.07, depthWrite: false}));
-    glow.rotation.x = -Math.PI / 2;
-    glow.position.y = -0.15;
-    g.add(glow);
-    scene.add(g);
-  });
-
-  // ---------- A battle tank, built along +x
-  function makeTank() {
-    const g = new THREE.Group();
-    const add = (geo, mat, x, y, z, rot) => {
-      const m = withEdges(new THREE.Mesh(geo, mat));
-      m.position.set(x, y, z);
-      if (rot) m.rotation.set(rot[0], rot[1], rot[2]);
-      g.add(m);
-      return m;
-    };
-    add(new THREE.BoxGeometry(1.32, 0.26, 0.26), darkMat, 0, 0.13, 0.36);
-    add(new THREE.BoxGeometry(1.32, 0.26, 0.26), darkMat, 0, 0.13, -0.36);
-    add(new THREE.BoxGeometry(1.12, 0.24, 0.62), bodyMat, 0.0, 0.36, 0);
-    add(new THREE.BoxGeometry(0.26, 0.16, 0.6), bodyMat, 0.6, 0.31, 0, [0, 0, -0.65]);
-    const turret = add(new THREE.CylinderGeometry(0.26, 0.31, 0.2, 20), bodyMat, -0.08, 0.58, 0);
-    const gun = new THREE.Group();
-    gun.position.set(0.12, 0.6, 0);
-    const barrel = withEdges(new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.05, 0.95, 12), bodyMat));
-    barrel.rotation.z = -Math.PI / 2;
-    barrel.position.x = 0.47;
-    gun.add(barrel);
-    const brake = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.13, 12), litMat);
-    brake.rotation.z = -Math.PI / 2;
-    brake.position.x = 0.98;
-    gun.add(brake);
-    g.add(gun);
-    add(new THREE.CylinderGeometry(0.07, 0.07, 0.05, 12), bodyMat, -0.15, 0.7, 0.08);
-    // the road wheels: lit hubs on both tracks
-    for (let i = 0; i < 5; i++) {
-      [0.5, -0.5].forEach((z) => {
-        const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.02, 10), litMat);
-        hub.rotation.x = Math.PI / 2;
-        hub.position.set(-0.5 + i * 0.25, 0.13, z);
-        g.add(hub);
-      });
+  const parts = [];
+  const partGeo = new THREE.BoxGeometry(0.09, 0.09, 0.09);
+  function burst(pos, n, colors, speed = 4, opts = {}) {
+    n = reduced ? Math.ceil(n / 3) : n;
+    for (let i = 0; i < n; i++) {
+      const m = new THREE.Mesh(opts.geo || partGeo, new THREE.MeshBasicMaterial({color: colors[i % colors.length], transparent: true}));
+      m.position.copy(pos);
+      const a = Math.random() * Math.PI * 2, up = (opts.up || 1.5) + Math.random() * (opts.upRand || 3);
+      m.userData = {v: new THREE.Vector3(Math.cos(a) * speed * Math.random(), up, Math.sin(a) * speed * Math.random()),
+        life: 1, fade: opts.fade || 0.8, gravity: opts.gravity || 9,
+        spin: new THREE.Vector3(Math.random() * 8, Math.random() * 8, Math.random() * 8)};
+      scene.add(m);
+      parts.push(m);
     }
-    // a lit stripe along each side of the hull
-    [0.312, -0.312].forEach((z) => {
-      const s = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.03, 0.01), litMat);
-      s.position.set(0, 0.42, z);
-      g.add(s);
-    });
-    g.userData = {gun, turret, side: 0, target: new THREE.Vector3(), hop: 0};
-    g.traverse((o) => { o.userData.tank = g; });
-    return g;
+  }
+  // Things in flight: shells, water drops. Each lands on the ground and calls onLand.
+  const flying = [];
+  function launch(mesh, v, opts = {}) {
+    mesh.userData = {v, life: opts.life || 1.2, gravity: opts.gravity || 6, onLand: opts.onLand};
+    scene.add(mesh);
+    flying.push(mesh);
+  }
+  // A ring that grows and fades on the ground: a ripple, a shock wave.
+  const rings = [];
+  function ring(pos, color, size = 1) {
+    const m = new THREE.Mesh(new THREE.RingGeometry(0.15, 0.22, 32),
+      new THREE.MeshBasicMaterial({color, transparent: true, opacity: 0.9, side: THREE.DoubleSide, depthWrite: false}));
+    m.rotation.x = -Math.PI / 2;
+    m.position.copy(pos).setY(pos.y + 0.02);
+    m.userData = {life: 1, size};
+    scene.add(m);
+    rings.push(m);
+  }
+  let shake = 0;
+  function flash(pos, intensity = 3) {
+    flashLight.position.copy(pos).add(new THREE.Vector3(0, 1, 0));
+    flashLight.intensity = intensity;
   }
 
-  // ---------- State: the tanks on each side, in order
+  // ---------- Sound: made in the page, after the first tap
+  let actx = null;
+  const audio = () => { try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); if (actx.state === 'suspended') actx.resume(); } catch (e) { actx = null; } return actx; };
+  function noise({len = 0.5, freq = 900, type = 'lowpass', q = 1, gain = 0.5, power = 2.5} = {}) {
+    const c = audio(); if (!c) return;
+    const buf = c.createBuffer(1, Math.floor(c.sampleRate * len), c.sampleRate), d = buf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, power);
+    const src = c.createBufferSource(); src.buffer = buf;
+    const f = c.createBiquadFilter(); f.type = type; f.frequency.value = freq; f.Q.value = q;
+    const g = c.createGain(); g.gain.value = gain;
+    src.connect(f).connect(g).connect(c.destination); src.start();
+  }
+  function tone({type = 'square', f1 = 220, f2 = 440, len = 0.14, gain = 0.08} = {}) {
+    const c = audio(); if (!c) return;
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = type; o.frequency.setValueAtTime(f1, c.currentTime); o.frequency.exponentialRampToValueAtTime(f2, c.currentTime + len);
+    g.gain.setValueAtTime(gain, c.currentTime); g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + len);
+    o.connect(g).connect(c.destination); o.start(); o.stop(c.currentTime + len);
+  }
+  const cheer = () => [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => tone({type: T.chime || 'square', f1: f, f2: f * 1.01, len: 0.18}), i * 110));
+
+  const kit = {THREE, U, V, padCenter, C, reduced, withEdges, burst, launch, ring, flash, noise, tone,
+    shake: (a) => { if (!reduced) shake = Math.max(shake, a); }};
+  const look = T.build(THREE, kit);
+
+  // The two pads.
+  const grounds = [0, 1].map((side) => {
+    const g = look.ground(side);
+    g.position.copy(padCenter(side));
+    scene.add(g);
+    return g;
+  });
+
+  // ---------- State: the things on each side, in order
   const sides = [[], []];
+  const leaving = [];
+  let made = 0;
   let stars = 0;
   let task = null;
   let solvedAt = 0;
 
+  const faceAngle = (side) => {
+    if (!look.faceEachOther) return 0;
+    const d = side === 0 ? U : U.clone().negate();
+    return Math.atan2(-d.z, d.x);
+  };
   function slot(side, i) {
     const col = i % 2, row = Math.floor(i / 2);
     return padCenter(side).add(new THREE.Vector3(col ? 0.8 : -0.8, 0, -2.3 + row * 1.15));
   }
   function relayout() {
-    sides.forEach((list, side) => list.forEach((t, i) => { t.userData.side = side; t.userData.target.copy(slot(side, i)); }));
+    sides.forEach((list, side) => list.forEach((t, i) => {
+      t.userData.side = side; t.userData.target.copy(slot(side, i)); t.userData.facing = faceAngle(side);
+    }));
   }
 
-  function addTank(side, from) {
-    if (sides[side].length >= MAX) { say(`That side is full: ${MAX} is the most.`); return null; }
-    const t = makeTank();
+  function make(side) {
+    const t = look.make(made++);
+    // An invisible box around the thing, so a small finger can grab it.
+    const box = new THREE.Box3().setFromObject(t), size = box.getSize(new THREE.Vector3()), mid = box.getCenter(new THREE.Vector3());
+    const hit = new THREE.Mesh(new THREE.BoxGeometry(Math.max(size.x, 0.9), Math.max(size.y, 0.6), Math.max(size.z, 0.9)));
+    hit.position.copy(mid);
+    hit.visible = false;
+    t.add(hit);
+    Object.assign(t.userData, {side, target: new THREE.Vector3(), lift: 0, facing: faceAngle(side)});
+    t.rotation.y = t.userData.facing;
+    t.traverse((o) => { o.userData.thing = t; });
+    return t;
+  }
+  function addThing(side, from) {
+    if (sides[side].length >= MAX) { tell('full'); return null; }
+    const t = make(side);
     sides[side].push(t);
     relayout();
-    t.position.copy(from || t.userData.target.clone().add(new THREE.Vector3(-4, 0, 0)));
-    t.userData.hop = from ? 0 : 1;
+    t.position.copy(from || t.userData.target.clone().add(look.enterFrom ? look.enterFrom(side) : new THREE.Vector3(-4, 0, 0)));
     scene.add(t);
     return t;
   }
+  function fill(side, n) {
+    while (sides[side].length > n) { const t = sides[side].pop(); scene.remove(t); }
+    while (sides[side].length < n) addThing(side);
+    relayout();
+  }
 
-  // ---------- Particles: squares of light for explosions and celebrations
-  const parts = [];
-  const partGeo = new THREE.BoxGeometry(0.09, 0.09, 0.09);
-  function burst(pos, n, colors, speed = 4) {
-    for (let i = 0; i < n; i++) {
-      const m = new THREE.Mesh(partGeo, new THREE.MeshBasicMaterial({color: colors[i % colors.length], transparent: true}));
-      m.position.copy(pos);
-      const a = Math.random() * Math.PI * 2, up = 1.5 + Math.random() * 3;
-      m.userData = {v: new THREE.Vector3(Math.cos(a) * speed * Math.random(), up, Math.sin(a) * speed * Math.random()),
-        life: 1, spin: new THREE.Vector3(Math.random() * 8, Math.random() * 8, Math.random() * 8)};
-      scene.add(m);
-      parts.push(m);
+  // ---------- Voice: one line at a time, Lauren's clip if there is one, else the browser's voice
+  let muted = false;
+  try { muted = localStorage.getItem('maths-voice') === 'off'; } catch (e) { /* storage blocked: voice stays on */ }
+  let queue = [], playing = null, heard = false;
+  function stopVoice() {
+    queue = [];
+    if (playing && playing.pause) playing.pause();
+    if (window.speechSynthesis) speechSynthesis.cancel();
+    playing = null;
+  }
+  function speak(lines, interrupt = true) {
+    if (interrupt) stopVoice();
+    if (muted) return;
+    queue.push(...lines);
+    if (!playing) playNext();
+  }
+  function playNext() {
+    const l = queue.shift();
+    if (!l) { playing = null; return; }
+    const done = () => { if (playing === p) playNext(); };
+    let p;
+    if (CLIPS.has(l.clip)) {
+      p = new Audio(`voice/${l.clip}.mp3`);
+      p.onended = done;
+      p.onerror = () => { if (playing === p) { playing = null; queue.unshift(Object.assign({}, l, {clip: ''})); playNext(); } };
+      playing = p;
+      p.play().catch(() => { if (playing === p) playing = null; });
+    } else if (window.speechSynthesis) {
+      p = new SpeechSynthesisUtterance(l.speak);
+      p.rate = 0.95;
+      p.onend = done;
+      playing = p;
+      speechSynthesis.speak(p);
     }
   }
-  // shells in flight, fired by Fire!
-  const shells = [];
+  $('mute').onclick = () => {
+    muted = !muted;
+    try { localStorage.setItem('maths-voice', muted ? 'off' : 'on'); } catch (e) { /* not kept */ }
+    $('mute').textContent = muted ? '🔇' : '🔊';
+    $('mute').setAttribute('aria-label', muted ? 'Voice off' : 'Voice on');
+    if (muted) stopVoice(); else speak([task.line]);
+  };
+  $('mute').textContent = muted ? '🔇' : '🔊';
 
-  // ---------- Sound: made in the page, after the first tap
-  let ctx = null;
-  const audio = () => { try { ctx = ctx || new (window.AudioContext || window.webkitAudioContext)(); if (ctx.state === 'suspended') ctx.resume(); } catch (e) { ctx = null; } return ctx; };
-  function boom(big = 1) {
-    const c = audio(); if (!c) return;
-    const len = 0.5 * big, buf = c.createBuffer(1, c.sampleRate * len, c.sampleRate), d = buf.getChannelData(0);
-    for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 2.5);
-    const src = c.createBufferSource(); src.buffer = buf;
-    const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 900;
-    const g = c.createGain(); g.gain.value = 0.5 * big;
-    src.connect(lp).connect(g).connect(c.destination); src.start();
-  }
-  function blip(f1, f2, len = 0.14) {
-    const c = audio(); if (!c) return;
-    const o = c.createOscillator(), g = c.createGain();
-    o.type = 'square'; o.frequency.setValueAtTime(f1, c.currentTime); o.frequency.exponentialRampToValueAtTime(f2, c.currentTime + len);
-    g.gain.setValueAtTime(0.08, c.currentTime); g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + len);
-    o.connect(g).connect(c.destination); o.start(); o.stop(c.currentTime + len);
-  }
-  const cheer = () => [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => blip(f, f * 1.01, 0.18), i * 110));
-
-  // ---------- Words on screen
+  // ---------- Words on screen, and spoken
+  const line = (key, vars, i) => W.line(T, key, vars, i);
   let sayTimer = 0;
-  function say(text, ms = 2600) {
+  function show(text, ms = 2600) {
     $('say').textContent = text;
     clearTimeout(sayTimer);
     sayTimer = setTimeout(() => { $('say').textContent = ''; }, ms);
   }
+  function tell(key, vars, ms) { const l = line(key, vars); show(l.show, ms); speak([l]); }
+
+  // After the counts stop changing, the voice reads out the sum. Taking away is read as taking away.
+  let settled = [0, 0], settleTimer = 0, quiet = false, justWon = false;
+  function changed() {
+    clearTimeout(settleTimer);
+    if (quiet) return;
+    settleTimer = setTimeout(readOut, 1100);
+  }
+  function readOut() {
+    const L = sides[0].length, R = sides[1].length;
+    const was = settled;
+    settled = [L, R];
+    if (justWon) { justWon = false; return; }
+    const dL = L - was[0], dR = R - was[1];
+    if (dL < 0 && dR === 0) speak([line('takeAway', {a: was[0], k: -dL, b: L})]);
+    else if (dR < 0 && dL === 0) speak([line('takeAway', {a: was[1], k: -dR, b: R})]);
+    else if (dL !== 0 || dR !== 0) speak([line('sum', {L, R, S: L + R})]);
+  }
+
   function updateHud() {
     const L = sides[0].length, R = sides[1].length;
     $('sum').innerHTML = `${L} <span class="op">+</span> ${R} <span class="op">=</span> ${L + R}`;
@@ -282,34 +579,38 @@
     rel.classList.toggle('equal', L === R);
     $('stars').textContent = `★ ${stars}`;
     checkTask();
+    changed();
   }
 
-  // ---------- Challenges: easy questions he answers by building, blowing up and moving tanks
+  // ---------- Challenges: easy questions answered by adding, taking away and moving things
   const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+  const pick = (r) => rnd(r[0], r[1]);
+  const RG = W.RANGES;
   const TASKS = [
-    () => ({text: 'Make both sides equal', ok: (L, R) => L === R && L > 0, win: (L, R) => `Yes! ${L} = ${R}`}),
-    () => { const n = rnd(2, 7); return {text: `Build ${n} tanks on the left`, ok: (L) => L === n, win: () => `Yes! ${n} tanks`}; },
-    () => { const a = rnd(1, 5), b = rnd(1, 5); return {text: `Show ${a} + ${b}`, ok: (L, R) => L === a && R === b, win: () => `Yes! ${a} + ${b} = ${a + b}`}; },
-    () => { const t = rnd(3, 10); return {text: `Make ${t} tanks in all`, ok: (L, R) => L + R === t, win: (L, R) => `Yes! ${L} + ${R} = ${t}`}; },
-    () => { const n = rnd(1, 3); return {text: `Blow up tanks until the right side has ${n}`, setup: () => fill(1, n + rnd(2, 4)), ok: (L, R) => R === n,
-      win: () => `Yes! Only ${n} left`}; },
-    () => { const L0 = sides[0].length; const t = Math.max(2, L0); return {text: `Make the right side bigger than the left`, ok: (L, R) => R > L,
-      win: (L, R) => `Yes! ${R} > ${L}`, _t: t}; },
+    () => ({line: line('taskEqual'), ok: (L, R) => L === R && L > 0, win: (L) => line('same', {n: L})}),
+    () => { const n = pick(RG.build); return {line: line('taskBuild', {n}), ok: (L) => L === n, win: () => line('count', {n})}; },
+    () => { const a = pick(RG.show), b = pick(RG.show); return {line: line('taskShow', {a, b}), ok: (L, R) => L === a && R === b,
+      win: () => line('sum', {L: a, R: b, S: a + b})}; },
+    () => { const t = pick(RG.total); return {line: line('taskTotal', {t}), ok: (L, R) => L + R === t, win: (L, R) => line('sum', {L, R, S: t})}; },
+    () => { const n = pick(RG.keep); return {line: line('taskKeep', {n}), setup: () => fill(1, n + rnd(2, 4)), ok: (L, R) => R === n,
+      win: () => line('only', {n})}; },
+    () => ({line: line('taskBigger'), ok: (L, R) => R > L, win: (L, R) => line('bigger', {L, R})}),
   ];
-  function fill(side, n) {
-    while (sides[side].length > n) { const t = sides[side].pop(); scene.remove(t); }
-    while (sides[side].length < n) addTank(side);
-    relayout();
-  }
   function newTask(first = false) {
     let next;
-    do { next = TASKS[rnd(0, TASKS.length - 1)](); } while (!first && task && next.text === task.text);
+    do { next = TASKS[rnd(0, TASKS.length - 1)](); } while (!first && task && next.line.show === task.line.show);
     task = first ? TASKS[0]() : next;
     solvedAt = 0;
+    quiet = true;
     if (task.setup) task.setup();
-    $('task').textContent = task.text;
+    quiet = false;
+    settled = [sides[0].length, sides[1].length];
+    $('task').textContent = task.line.show;
     $('task').classList.remove('done');
     updateHud();
+    clearTimeout(settleTimer);
+    justWon = false;
+    if (!first || heard) speak([task.line]);
   }
   function checkTask() {
     if (!task || solvedAt) return;
@@ -317,35 +618,44 @@
     if (task.ok(L, R)) {
       solvedAt = performance.now();
       stars++;
+      const win = task.win(L, R), yes = line('yes', {}, stars - 1);
       $('stars').textContent = `★ ${stars}`;
-      $('task').textContent = task.win(L, R);
+      $('task').textContent = `${yes.show} ${win.show}`;
       $('task').classList.add('done');
-      say('Press New challenge for another one.', 4000);
+      show(line('next').show, 4000);
+      speak([yes, win, line('next')]);
+      justWon = true;
       cheer();
-      [0, 1].forEach((s) => burst(padCenter(s).add(new THREE.Vector3(0, 1.2, 0)), reduced ? 10 : 40, [TEAL, CYAN, GOLD, HI], 5));
+      [0, 1].forEach((s) => burst(padCenter(s).add(new THREE.Vector3(0, 1.2, 0)), 40, [C.accent, C.accent2, C.warn, C.hi], 5));
     }
   }
+  // Tap the challenge to hear it again.
+  $('task').onclick = () => { audio(); heard = true; speak([solvedAt ? line('next') : task.line]); };
 
-  // ---------- Input: tap to blow up, drag to move
+  // ---------- Input: tap to take one away, drag to move
   const ray = new THREE.Raycaster(), ptr = new THREE.Vector2(), ground = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
   let drag = null;
-  function pick(e) {
+  function aim(e) {
     const r = renderer.domElement.getBoundingClientRect();
     ptr.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     ray.setFromCamera(ptr, camera);
   }
-  renderer.domElement.addEventListener('pointerdown', (e) => {
+  // The first tap anywhere starts sound, and says the first challenge out loud.
+  function firstTap() {
     audio();
-    pick(e);
-    const tanks = sides.flat();
-    const hit = ray.intersectObjects(tanks, true)[0];
+    if (!heard) { heard = true; if (!solvedAt) speak([task.line]); }
+  }
+  document.addEventListener('pointerdown', firstTap, {capture: true});
+  renderer.domElement.addEventListener('pointerdown', (e) => {
+    aim(e);
+    const hit = ray.intersectObjects(sides.flat(), true)[0];
     if (!hit) return;
-    const t = hit.object.userData.tank;
+    const t = hit.object.userData.thing;
     drag = {t, x: e.clientX, y: e.clientY, moved: false, from: t.userData.side};
     renderer.domElement.setPointerCapture(e.pointerId);
   });
   renderer.domElement.addEventListener('pointermove', (e) => {
-    pick(e);
+    aim(e);
     if (!drag) {
       const hit = ray.intersectObjects(sides.flat(), true)[0];
       renderer.domElement.style.cursor = hit ? 'pointer' : 'default';
@@ -361,7 +671,7 @@
     const {t, moved, from, at} = drag;
     drag = null;
     t.userData.lift = 0;
-    if (!moved) { explode(t); return; }
+    if (!moved) { takeAway(t); return; }
     const to = (at || t.position).dot(U) < 0 ? 0 : 1;
     if (to !== from && sides[to].length < MAX) {
       const L0 = sides[0].length, R0 = sides[1].length;
@@ -369,61 +679,45 @@
       sides[to].push(t);
       relayout();
       const L = sides[0].length, R = sides[1].length;
-      say(`${L0} + ${R0} = ${L} + ${R}. Still ${L + R} tanks!`, 3200);
-      blip(330, 660);
+      show(`${L0} + ${R0} = ${L} + ${R}. Still ${L + R} ${L + R === 1 ? T.one : T.many}!`, 3200);
+      if (look.sounds.move) look.sounds.move();
     } else {
       relayout();
     }
     updateHud();
   });
 
-  function explode(t) {
+  function takeAway(t) {
     const side = t.userData.side, before = sides[side].length;
     sides[side].splice(sides[side].indexOf(t), 1);
-    scene.remove(t);
-    burst(t.position.clone().add(new THREE.Vector3(0, 0.4, 0)), reduced ? 16 : 46, [TEAL, CYAN, HI, GOLD]);
-    flashLight.position.copy(t.position).add(new THREE.Vector3(0, 1, 0));
-    flashLight.intensity = 3;
-    shake = reduced ? 0 : 0.25;
-    boom(1);
+    const leave = look.remove(t, side);
+    if (leave && leave.dur > 0) leaving.push({t, leave, p: 0});
+    else scene.remove(t);
+    look.sounds.remove();
     relayout();
-    say(`${before} − 1 = ${before - 1}`);
+    show(line('takeAway', {a: before, k: 1, b: before - 1}).show);
     updateHud();
   }
 
-  function build(side) {
-    audio();
+  function add(side) {
     const before = sides[side].length;
-    if (addTank(side)) { blip(220, 440); say(`${before} + 1 = ${before + 1}`); updateHud(); }
+    if (addThing(side)) { look.sounds.add(); show(line('sum', {L: before, R: 1, S: before + 1}).show); updateHud(); }
   }
 
-  function fire() {
-    audio();
-    const tanks = sides.flat();
-    if (!tanks.length) { say('Build some tanks first!'); return; }
-    tanks.forEach((t, i) => setTimeout(() => {
-      if (!t.parent) return;
-      const muzzle = new THREE.Vector3(1.1, 0.6, 0).applyMatrix4(t.matrixWorld);
-      const s = new THREE.Mesh(new THREE.SphereGeometry(0.07, 8, 8), hiMat);
-      s.position.copy(muzzle);
-      s.userData = {v: new THREE.Vector3(9, 2.2, 0), life: 1.2};
-      scene.add(s);
-      shells.push(s);
-      burst(muzzle, reduced ? 4 : 10, [HI, GOLD], 1.2);
-      t.userData.recoil = 1;
-      boom(0.35);
-    }, i * 90));
-    say(`${tanks.length} tanks fire!`);
+  function act() {
+    const all = sides.flat();
+    if (!all.length) { tell('empty'); return; }
+    all.forEach((t, i) => setTimeout(() => { if (t.parent) look.act(t, t.userData.side); }, i * 90));
+    tell('act');
   }
 
-  $('buildL').onclick = () => build(0);
-  $('buildR').onclick = () => build(1);
-  $('fire').onclick = fire;
-  $('next').onclick = () => { audio(); newTask(); };
-  $('clear').onclick = () => { fill(0, 0); fill(1, 0); say('All clear. Build some tanks!'); updateHud(); };
+  $('addL').onclick = () => add(0);
+  $('addR').onclick = () => add(1);
+  $('act').onclick = act;
+  $('next').onclick = () => newTask();
+  $('clear').onclick = () => { quiet = true; fill(0, 0); fill(1, 0); quiet = false; settled = [0, 0]; updateHud(); clearTimeout(settleTimer); tell('clear'); };
 
   // ---------- Resize: keep both pads in view at any width
-  let shake = 0;
   function resize() {
     const w = stage.clientWidth, h = stage.clientHeight;
     renderer.setSize(w, h, false);
@@ -450,28 +744,44 @@
     const dt = Math.min(0.05, (now - last) / 1000); last = now;
     sides.flat().forEach((t) => {
       const ud = t.userData;
-      const goal = tmp.copy(ud.target); goal.y = (ud.lift || 0);
+      const goal = tmp.copy(ud.target); goal.y = ud.lift || 0;
       t.position.lerp(goal, 1 - Math.pow(0.0008, dt));
-      if (ud.recoil) { ud.recoil = Math.max(0, ud.recoil - dt * 4); ud.gun.position.x = 0.12 - 0.12 * ud.recoil; }
-      const idle = Math.sin(now / 900 + t.id) * 0.06;
-      ud.turret.rotation.y = idle; ud.gun.rotation.y = idle;
+      let turn = ud.facing - t.rotation.y;
+      turn = Math.atan2(Math.sin(turn), Math.cos(turn));
+      t.rotation.y += turn * (1 - Math.pow(0.002, dt));
+      look.idle(t, now, dt);
     });
+    for (let i = leaving.length - 1; i >= 0; i--) {
+      const l = leaving[i];
+      l.p = Math.min(1, l.p + dt / l.leave.dur);
+      l.leave.step(l.p, dt);
+      if (l.p >= 1) { scene.remove(l.t); leaving.splice(i, 1); }
+    }
     for (let i = parts.length - 1; i >= 0; i--) {
       const m = parts[i], u = m.userData;
-      u.v.y -= 9 * dt; m.position.addScaledVector(u.v, dt);
+      u.v.y -= u.gravity * dt; m.position.addScaledVector(u.v, dt);
       if (m.position.y < 0.05) { m.position.y = 0.05; u.v.multiplyScalar(0.4); u.v.y = Math.abs(u.v.y) * 0.3; }
       m.rotation.x += u.spin.x * dt; m.rotation.y += u.spin.y * dt;
-      u.life -= dt * 0.8; m.material.opacity = Math.max(0, u.life);
+      u.life -= dt * u.fade; m.material.opacity = Math.max(0, u.life);
       if (u.life <= 0) { scene.remove(m); m.material.dispose(); parts.splice(i, 1); }
     }
-    for (let i = shells.length - 1; i >= 0; i--) {
-      const s = shells[i], u = s.userData;
-      u.v.y -= 6 * dt; s.position.addScaledVector(u.v, dt); u.life -= dt;
+    for (let i = flying.length - 1; i >= 0; i--) {
+      const s = flying[i], u = s.userData;
+      u.v.y -= u.gravity * dt; s.position.addScaledVector(u.v, dt); u.life -= dt;
       if (s.position.y <= 0.05 || u.life <= 0) {
-        burst(s.position.clone().setY(0.1), reduced ? 6 : 16, [TEAL, CYAN, GOLD], 2.5);
-        scene.remove(s); shells.splice(i, 1);
+        if (u.onLand) u.onLand(s.position.clone().setY(0.05));
+        scene.remove(s); flying.splice(i, 1);
       }
     }
+    for (let i = rings.length - 1; i >= 0; i--) {
+      const m = rings[i], u = m.userData;
+      u.life -= dt * 1.3;
+      const s = 1 + (1 - u.life) * 5 * u.size;
+      m.scale.set(s, s, s);
+      m.material.opacity = Math.max(0, u.life) * 0.9;
+      if (u.life <= 0) { scene.remove(m); m.geometry.dispose(); m.material.dispose(); rings.splice(i, 1); }
+    }
+    if (look.groundIdle) grounds.forEach((g, side) => look.groundIdle(g, now, side));
     flashLight.intensity = Math.max(0, flashLight.intensity - dt * 9);
     shake = Math.max(0, shake - dt * 1.2);
     camera.position.set(20 + (Math.random() - 0.5) * shake, 20 + (Math.random() - 0.5) * shake, 20);
@@ -483,15 +793,12 @@
   }
 
   // ---------- Start: 3 on the left and 2 on the right, so the first view already shows a sum
-  function start(data) {
-    const L = data && Number.isInteger(data.L) ? data.L : 3, R = data && Number.isInteger(data.R) ? data.R : 2;
-    stars = data && Number.isInteger(data.stars) ? data.stars : 0;
-    fill(0, L); fill(1, R);
-    sides.flat().forEach((t) => t.position.copy(t.userData.target));
-    newTask(true);
-    requestAnimationFrame(frame);
-  }
-  start({});
+  quiet = true;
+  fill(0, 3); fill(1, 2);
+  quiet = false;
+  sides.flat().forEach((t) => t.position.copy(t.userData.target));
+  newTask(true);
+  requestAnimationFrame(frame);
 })();
 </script>
 </body>
