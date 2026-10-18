@@ -1,0 +1,15 @@
+# Secrets. Load the ElevenLabs key with tools/set-key.sh.
+.env
+.env.*
+
+# Generated media lives in Google Drive, not in git. See docs/media.md.
+*.mp4
+*.mov
+*.webm
+*.wav
+*.aiff
+build/
+
+# Local tool files
+.claude/
+__pycache__/

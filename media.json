@@ -1,0 +1,287 @@
+{
+  "about": "Generated media kept out of git. The files are in Google Drive, folder 'Learning games', at the same paths. A url is where the public can watch or download the file. See docs/media.md.",
+  "files": {
+    "maths/01-counting-tanks/build/master.mp4": {
+      "bytes": 54069684,
+      "sha256": "fc23a3bcbe4c515844c5f8dae61897068ddabf6acb10f12334592aba301b1281"
+    },
+    "maths/01-counting-tanks/build/music.mp3": {
+      "bytes": 2478124,
+      "sha256": "c3554434d31b657bef95bb28db4d9e6ee9748e8e6ec2a340bc3a4d343a3570e8"
+    },
+    "maths/01-counting-tanks/build/picture.mp4": {
+      "bytes": 56359183,
+      "sha256": "c3f07c7c060d48da6181cb02dae744f33c44e48d4099252f821db46cb114bce3"
+    },
+    "maths/01-counting-tanks/build/voice/01.json": {
+      "bytes": 1027,
+      "sha256": "54817bc567e07756f331ef39972e17b5dfcd555f76c032c60f0a1ad5b34f5382"
+    },
+    "maths/01-counting-tanks/build/voice/01.mp3": {
+      "bytes": 88232,
+      "sha256": "83b0ab974bde082190eb992bab59f5582fa0c1f4e802713c187c7bfbe9e89280"
+    },
+    "maths/01-counting-tanks/build/voice/02.json": {
+      "bytes": 1200,
+      "sha256": "cd4ed111199e9110c1d26134e8015f99e031065c28cae9d6f0973aaa4d4a89d0"
+    },
+    "maths/01-counting-tanks/build/voice/02.mp3": {
+      "bytes": 98263,
+      "sha256": "8b4783c699d0e7b0dbc99ad53171e28b3ce3496aa0ff0e66791e9b9698c9b097"
+    },
+    "maths/01-counting-tanks/build/voice/03.json": {
+      "bytes": 696,
+      "sha256": "774cdfa451c85f486b267fd1fcadd3d83f21d3e29964f5839bce5d80f078cf2c"
+    },
+    "maths/01-counting-tanks/build/voice/03.mp3": {
+      "bytes": 63990,
+      "sha256": "fa6842705cad2911c5c3bb5525c137ca3b7688135247b4ead32b03728d2bb5f7"
+    },
+    "maths/01-counting-tanks/build/voice/04.json": {
+      "bytes": 626,
+      "sha256": "05949c3fc7afe8d64324225f552f63eed81e8216b21640ce75ef2ef4fc1aa15e"
+    },
+    "maths/01-counting-tanks/build/voice/04.mp3": {
+      "bytes": 48526,
+      "sha256": "b44dc1e4fc35edf2d0362d35ab4687afd8c4130fcca5902a10f388c6d1393c8b"
+    },
+    "maths/01-counting-tanks/build/voice/05.json": {
+      "bytes": 311,
+      "sha256": "ed8f2cc8d8dc8ebf53d469f10207c7c3c02d3c5a23e6e7f54ce46c3f9d104155"
+    },
+    "maths/01-counting-tanks/build/voice/05.mp3": {
+      "bytes": 47272,
+      "sha256": "11d2627f4cd33a7f73c84686e76119bedfd4cc71edc822762ff34a35d28c2052"
+    },
+    "maths/01-counting-tanks/build/voice/06.json": {
+      "bytes": 1185,
+      "sha256": "31a482eaa5162c840f23bef1762b1bacac041715d02f74d9cee9b31708b43822"
+    },
+    "maths/01-counting-tanks/build/voice/06.mp3": {
+      "bytes": 150926,
+      "sha256": "afcc64a98f7b48017b0f4d4a2011b46cee2fcf064e944125b0fd7b4fe0cd7687"
+    },
+    "maths/01-counting-tanks/build/voice/07.json": {
+      "bytes": 1508,
+      "sha256": "344535470aefc304b58ab9a7da6ed36a938e56505b352a55e0fd0001a3c386b7"
+    },
+    "maths/01-counting-tanks/build/voice/07.mp3": {
+      "bytes": 126684,
+      "sha256": "d35960f2948f5915b3236a4d21654a2fd14d03d828757c8743229d6f52478af2"
+    },
+    "maths/01-counting-tanks/build/voice/08.json": {
+      "bytes": 1086,
+      "sha256": "2081f7627e562b2f0bc7e9be6b912b5179db1d2324543cbbe5c6909d24a0bb45"
+    },
+    "maths/01-counting-tanks/build/voice/08.mp3": {
+      "bytes": 71514,
+      "sha256": "17c30b39eb97e7acbc12b9d2f01a38d63f9b628f388a9214475b176a3fd42651"
+    },
+    "maths/01-counting-tanks/build/voice/09.json": {
+      "bytes": 982,
+      "sha256": "4ea29b8de3d1b2bd6d0d951c4c6462966433ed8e6ba67991bce15d384bf3dc0d"
+    },
+    "maths/01-counting-tanks/build/voice/09.mp3": {
+      "bytes": 103278,
+      "sha256": "08e3623c476bbb3c735722b5a188645df52e9669b2d17a04ab2f69601b1f8f10"
+    },
+    "maths/01-counting-tanks/build/voice/10.json": {
+      "bytes": 777,
+      "sha256": "9f550e0f2ec38fbc61ee522544d7d65890f2153b422a8c8d1f4c266d95dfef80"
+    },
+    "maths/01-counting-tanks/build/voice/10.mp3": {
+      "bytes": 63990,
+      "sha256": "5df18142232790f48ff763490eb04bc825ac75b233af74e94327b27eb905a5cf"
+    },
+    "maths/01-counting-tanks/build/voice/11.json": {
+      "bytes": 1028,
+      "sha256": "d72676fb10b10f4d20a1d5eb1572128bfe52947584e696fa76f30a6d2f42fd65"
+    },
+    "maths/01-counting-tanks/build/voice/11.mp3": {
+      "bytes": 103278,
+      "sha256": "f1c0a1ec38a8107e2598aed53dc59128eedeb95cd79a39d26ed91505f11646bc"
+    },
+    "maths/01-counting-tanks/build/voice/12.json": {
+      "bytes": 463,
+      "sha256": "c54007a065cc54378c82f3f28f0032b190e46ff7ac16cc88087298d1ee52c734"
+    },
+    "maths/01-counting-tanks/build/voice/12.mp3": {
+      "bytes": 36823,
+      "sha256": "24d16169122577b2fbe7468b6c13fd2c34b620495f8094f8470882204c209f7a"
+    },
+    "maths/01-counting-tanks/build/voice/13.json": {
+      "bytes": 1968,
+      "sha256": "4f32f9f0e766716dc456549f39b492bcd28cbb5dac99fe5ffd9e943265765847"
+    },
+    "maths/01-counting-tanks/build/voice/13.mp3": {
+      "bytes": 141731,
+      "sha256": "4baa828b15be09312a959300fc6b84a4a96ff597003d62bac21221b3543d5dad"
+    },
+    "maths/01-counting-tanks/build/voice/14.json": {
+      "bytes": 1171,
+      "sha256": "c84e275f43d00f7b61c1ac5acfa3c28d73ae68ee3e08cf93d7c4dfb6158b29f3"
+    },
+    "maths/01-counting-tanks/build/voice/14.mp3": {
+      "bytes": 82798,
+      "sha256": "8463b3edb03ca55f8f3d0de4c8d56078d64f8d1893e16e14d925498166b53323"
+    },
+    "maths/01-counting-tanks/build/voice/15.json": {
+      "bytes": 463,
+      "sha256": "1eeb9d4d9356a6b01d09db58d77ec1761fb8d9f3be2b7e2be3dc54329ba28efa"
+    },
+    "maths/01-counting-tanks/build/voice/15.mp3": {
+      "bytes": 39331,
+      "sha256": "ca4c390070eb12c3df91f256ae137f657ece9825a9178796da21fbb429b830ff"
+    },
+    "maths/01-counting-tanks/build/voice/16.json": {
+      "bytes": 1650,
+      "sha256": "ea1ac93862e5404a998940393f06c76f9ae258f2debeefab0098f27a268fe6b2"
+    },
+    "maths/01-counting-tanks/build/voice/16.mp3": {
+      "bytes": 122505,
+      "sha256": "925d9c9ad94a0fd0ebd1c56cdc32fc6e28a355fb89e9cbe963b3518b5f1803f3"
+    },
+    "maths/01-counting-tanks/build/voice/17.json": {
+      "bytes": 855,
+      "sha256": "e87e990538cf6447c027602c1305ade60d94d3d127a3e73d990cb9065527b5b8"
+    },
+    "maths/01-counting-tanks/build/voice/17.mp3": {
+      "bytes": 81545,
+      "sha256": "e2c6c3f8bb7ba4bacaee81fc3e1b957320bb8ba4227542a8a0256d0d76bb7b9e"
+    },
+    "maths/01-counting-tanks/build/voice/18.json": {
+      "bytes": 931,
+      "sha256": "9e76dce80c79c4cd24996f4749ddfe571448f07bb54cca50925cb548e4df6b5f"
+    },
+    "maths/01-counting-tanks/build/voice/18.mp3": {
+      "bytes": 71514,
+      "sha256": "ac15b349ec03c9188260005308e1a056d4244d82ce9942d05c79bd6822205dc7"
+    },
+    "maths/01-counting-tanks/build/voice/19.json": {
+      "bytes": 2084,
+      "sha256": "3c3881d7c63cab2816c81defa6cb3124e4d176d5381020a85ce48801af6bcce3"
+    },
+    "maths/01-counting-tanks/build/voice/19.mp3": {
+      "bytes": 168898,
+      "sha256": "676fb6a886ebf82eecaae946cb9d2c26b5b4a6f528eba00feac8d63bd8f8c8cb"
+    },
+    "maths/01-counting-tanks/build/voice/20.json": {
+      "bytes": 1116,
+      "sha256": "9510db5821c4bcac9d560a8b0dfe9c8c7f3cdf781bb574c38ec530a3e251f350"
+    },
+    "maths/01-counting-tanks/build/voice/20.mp3": {
+      "bytes": 89486,
+      "sha256": "43e7beea33d9a265b0f0537e01c83634a6e747faf6e499bdf6e94df01b7d4e67"
+    },
+    "maths/01-counting-tanks/build/voice/21.json": {
+      "bytes": 319,
+      "sha256": "f91d2be8dd17f82cc15d32144a9a0747f2d2685172941682504da7cd5ea67f27"
+    },
+    "maths/01-counting-tanks/build/voice/21.mp3": {
+      "bytes": 35569,
+      "sha256": "46a5834f254369a3230f30d82cd092d43fdde9283ac37762481e359ee939ba0c"
+    },
+    "maths/01-counting-tanks/build/voice/22.json": {
+      "bytes": 540,
+      "sha256": "d1aec644e91163aadbdb4c9515d0b67e6770fdbd2ed1c7238660968140c7e4ac"
+    },
+    "maths/01-counting-tanks/build/voice/22.mp3": {
+      "bytes": 30554,
+      "sha256": "8cb34b1e5c1f937dafaf934af8fad4bfb559a48a114f7e2753372fa1cf1b868d"
+    },
+    "maths/01-counting-tanks/counting-tanks.mp4": {
+      "bytes": 28013973,
+      "sha256": "4465c11513dbb0485f367bf48685853d3f9d5c44257cd76ffaba5b81b19289c9",
+      "url": "https://github.com/david-nelson-elske/learning-games/releases/download/media-v1/counting-tanks.mp4"
+    },
+    "maths/02-tank-quiz/build/master.mp4": {
+      "bytes": 18737802,
+      "sha256": "35da6b0ce702ad581489c2fe9ec87866bd49cf13dc775aab66c3a4cfc04dfbde"
+    },
+    "maths/02-tank-quiz/build/music.mp3": {
+      "bytes": 936690,
+      "sha256": "3e9cb9692760db975320af36c75f631b2a6fb5641ca05baeb4ae2d7a89aa2f89"
+    },
+    "maths/02-tank-quiz/build/picture.mp4": {
+      "bytes": 19583111,
+      "sha256": "527e22da2e8a8ed369fd650851c91be6f3148043f55da27d52245a6a5c7774cd"
+    },
+    "maths/02-tank-quiz/build/voice/01.json": {
+      "bytes": 309,
+      "sha256": "9dfb3c09883c20764e45f4d9b5da8f6a4038742487258a4a7c499b8840db2f3a"
+    },
+    "maths/02-tank-quiz/build/voice/01.mp3": {
+      "bytes": 38077,
+      "sha256": "eb21c1cb3232aa5341e5d38ffa854a06bc34b83b3aad4f38d1145a27987a88ea"
+    },
+    "maths/02-tank-quiz/build/voice/02.json": {
+      "bytes": 391,
+      "sha256": "279a3752bf6973f35ed5d2d81e49dde8a9b0140de72fef6aff811ecbd72ad676"
+    },
+    "maths/02-tank-quiz/build/voice/02.mp3": {
+      "bytes": 33061,
+      "sha256": "a696ff387e873ff0fee9d09f45dc072734929925afe5b3ecddeca4a60cca84db"
+    },
+    "maths/02-tank-quiz/build/voice/03.json": {
+      "bytes": 695,
+      "sha256": "b0bb37a101ecc8056641323f311aa5ee0e5756da06c1ce104b8580b8217c66b2"
+    },
+    "maths/02-tank-quiz/build/voice/03.mp3": {
+      "bytes": 63990,
+      "sha256": "3daef23029ca30fe9c9f22b051d5702262398454c6da9c61d95cf63f1ef0b803"
+    },
+    "maths/02-tank-quiz/build/voice/04.json": {
+      "bytes": 537,
+      "sha256": "08adaa8f985ccc1116983d5ca3436bb409ca566498fb729c12dddae80eb4bcf1"
+    },
+    "maths/02-tank-quiz/build/voice/04.mp3": {
+      "bytes": 49780,
+      "sha256": "af16bb12e5825e0b6901d5e548190251e1b094dbdb111aa5434c2096360951eb"
+    },
+    "maths/02-tank-quiz/build/voice/05.json": {
+      "bytes": 773,
+      "sha256": "24fd4f243cd71ad4eb9024951f47d7b0566bdbd9c9277bb706ae8f396207ef90"
+    },
+    "maths/02-tank-quiz/build/voice/05.mp3": {
+      "bytes": 70260,
+      "sha256": "f26ce69a703f5a38e475d07040b5f44378ad101eb0655b3ef987b04e9ba3de37"
+    },
+    "maths/02-tank-quiz/build/voice/06.json": {
+      "bytes": 619,
+      "sha256": "8a6221ee1c6cb3000b9d3af07ac037a5f221cd93f6e24fa54bc30af6d6666de4"
+    },
+    "maths/02-tank-quiz/build/voice/06.mp3": {
+      "bytes": 58557,
+      "sha256": "b713306a6baf2ec387b39b073fa6a1f8994d84b59858feb649437ef34e34da2a"
+    },
+    "maths/02-tank-quiz/build/voice/07.json": {
+      "bytes": 861,
+      "sha256": "509602393d8d4bd4624b08bdaae3bf64f16bae9239a2432be1191902c111a710"
+    },
+    "maths/02-tank-quiz/build/voice/07.mp3": {
+      "bytes": 66498,
+      "sha256": "834bef55db35281435679958e83eda1f2efa0435e331a4bdb3bffd5de293e3da"
+    },
+    "maths/02-tank-quiz/build/voice/08.json": {
+      "bytes": 535,
+      "sha256": "e1ef3a7becce8ca3d636d956202ef66f600bfca233413536ee992a69dba55496"
+    },
+    "maths/02-tank-quiz/build/voice/08.mp3": {
+      "bytes": 51034,
+      "sha256": "a2dd75f54e92457b005b6ab899d6483d178b25c334d4970d158f83a1c6e33be0"
+    },
+    "maths/02-tank-quiz/build/voice/09.json": {
+      "bytes": 853,
+      "sha256": "03dcd5e0d9af51f6d2474f3c90e6ecd5e2c32f5b34e0b616644efe70ce3b2f3c"
+    },
+    "maths/02-tank-quiz/build/voice/09.mp3": {
+      "bytes": 66498,
+      "sha256": "12082df0d31d8b59ee287d11577e1d0b5c2facba2c9f1bef7c056404a5ed21f9"
+    },
+    "maths/02-tank-quiz/tank-quiz.mp4": {
+      "bytes": 9448894,
+      "sha256": "0c62ca752875011bf9657664221bf1d71b743e98d1291a8074e03db21694f5b6",
+      "url": "https://github.com/david-nelson-elske/learning-games/releases/download/media-v1/tank-quiz.mp4"
+    }
+  }
+}

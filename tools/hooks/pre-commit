@@ -1,0 +1,3 @@
+#!/bin/sh
+# Refuse a commit that would put a file over 1 MB into git. Install once: git config core.hooksPath tools/hooks
+exec python3 "$(git rev-parse --show-toplevel)/tools/media.py" big

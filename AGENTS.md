@@ -12,8 +12,9 @@ This repository is public. It holds short teaching videos and small games for ch
 
 - One folder per subject at the top level: `maths/` now, more to come (for example `science/`, `reading/`).
 - Inside a subject, one folder per lesson, numbered in the order to watch or play: `01-counting-tanks/`, `02-tank-quiz/`.
-- Each lesson folder has a `README.md` that says what it teaches and how to use it. A video lesson also has its `.mp4` and a `script.md`. A game has a single `index.html` that runs from disk.
-- Keep each video under 50 MB (re-encode with H.264 at CRF 23 if needed), and each game a single file with no build step.
+- Each lesson folder has a `README.md` that says what it teaches and how to use it. A video lesson also has a `script.md` and a link to its video. A game has a single `index.html` that runs from disk.
+- **No file over 1 MB in git, and no video at any size.** Videos and build files stay on disk, ignored by git, and are kept in Google Drive. `media.json` lists them. Read [docs/media.md](docs/media.md) before adding media. The pre-commit hook refuses big files: install it once with `git config core.hooksPath tools/hooks`.
+- Keep each published video under 50 MB (re-encode with H.264 at CRF 23 if needed), and each game a single file with no build step.
 - Add each new lesson to the subject's `README.md` and to the table in the top `README.md`.
 
 ## Licences

@@ -12,7 +12,7 @@ Short videos and small games for children learning about the world, shared freel
 
 ## How to use it
 
-- **Videos:** open the `.mp4` file in a lesson folder. GitHub plays it in the page.
+- **Videos:** follow the video link in a lesson's README to watch or download it. Videos are kept out of git, so they are not in the lesson folders; see [docs/media.md](docs/media.md).
 - **Games:** download the lesson folder and open `index.html` in a web browser. It works on a computer, tablet or phone, and needs an internet connection the first time, for its fonts and the three.js library.
 
 ## How it is made
