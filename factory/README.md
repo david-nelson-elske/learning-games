@@ -48,6 +48,10 @@ The `kit` gives a theme what it needs to do this: `withEdges`, `burst`, `launch`
 
 Every sentence the game shows comes from [words.js](words.js), with a number as a digit on screen ("3 + 2 = 5") and as a word for the voice ("Three plus two equals five."). `words.js` can list every sentence a game can say, about 300 for each theme. `make.py --voice` makes one clip for each with ElevenLabs, in the voice set in [voice.json](voice.json), and saves it in the game's `voice/` folder. A clip that exists is not made again.
 
+`--voice` also times each word of each clip with ElevenLabs forced alignment and keeps the times in `voice/timings.json`.
+
+Under the sum, the game writes the same sum in words: "Three plus two equals five." When the voice speaks, that line shows what it says, and each word lights up as it is said, so a child can follow the reading. With no clip, the browser's voice lights the words where it can.
+
 The game reads out each new challenge, and the sum once the numbers stop changing for about a second. Taking away is read as taking away: "Five take away two is three." Tapping the challenge says it again, for children who cannot read yet. The 🔊 button turns the voice off and on. A sentence with no clip is read by the browser's own voice instead.
 
 Save the ElevenLabs key once with `sh tools/set-key.sh`.

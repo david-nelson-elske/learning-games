@@ -4,6 +4,8 @@
     python3 factory/make.py factory/themes/*.js --voice        # also make any missing voice clips
 
 The game goes to the theme's folder, for example maths/03-tank-maths-game/index.html, with its clips in voice/.
+--voice also times each word of each clip with ElevenLabs forced alignment, into voice/timings.json, so the
+game can light up each word as Lauren says it.
 Voicing needs Node (to list the lines) and an ElevenLabs key in ELEVENLABS_API_KEY or in .env at the root:
 run tools/set-key.sh once. A clip that exists is not made again, so changing one line costs one request.
 Clips no longer used are deleted. Standard library only.
@@ -13,12 +15,14 @@ import os
 import subprocess
 import sys
 import urllib.request
+import uuid
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 VOICE = json.loads((HERE / "voice.json").read_text(encoding="utf-8"))
 API = "https://api.elevenlabs.io/v1/text-to-speech/{voice_id}?output_format={output_format}"
+ALIGN = "https://api.elevenlabs.io/v1/forced-alignment"
 LIMIT = 1_000_000
 
 LIST_LINES = """
@@ -60,6 +64,38 @@ def voice(text, secret, out):
         out.write_bytes(response.read())
 
 
+def align(text, clip, secret):
+    """When each word of a clip starts and ends, in seconds, from ElevenLabs forced alignment."""
+    b = uuid.uuid4().hex
+    body = (f'--{b}\r\nContent-Disposition: form-data; name="text"\r\n\r\n{text}\r\n'
+            f'--{b}\r\nContent-Disposition: form-data; name="file"; filename="clip.mp3"\r\n'
+            f'Content-Type: audio/mpeg\r\n\r\n').encode("utf-8") + clip.read_bytes() + f"\r\n--{b}--\r\n".encode()
+    request = urllib.request.Request(ALIGN, body, method="POST",
+                                     headers={"xi-api-key": secret, "Content-Type": f"multipart/form-data; boundary={b}"})
+    with urllib.request.urlopen(request, timeout=120) as response:
+        words = [w for w in json.loads(response.read())["words"] if w["text"].strip()]
+    if len(words) != len(text.split()):
+        raise SystemExit(f"{clip.name}: {len(words)} timed words for {len(text.split())} words of text")
+    return [[round(w["start"], 2), round(w["end"], 2)] for w in words]
+
+
+def make_timings(lines, folder):
+    """voice/timings.json: for each clip, the start and end of each word, so the game can light each word as it is said."""
+    path = folder / "voice" / "timings.json"
+    timings = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    todo = [l for l in lines if l["clip"] not in timings and (folder / "voice" / f"{l['clip']}.mp3").exists()]
+    secret = key() if todo else ""
+    for i, l in enumerate(todo, 1):
+        timings[l["clip"]] = align(l["speak"], folder / "voice" / f"{l['clip']}.mp3", secret)
+        if i % 25 == 0 or i == len(todo):
+            path.write_text(json.dumps(timings, sort_keys=True, separators=(",", ":")) + "\n", encoding="utf-8")
+            print(f"  timed {i}/{len(todo)}", flush=True)
+    wanted = {l["clip"] for l in lines}
+    timings = {k: v for k, v in timings.items() if k in wanted}
+    path.write_text(json.dumps(timings, sort_keys=True, separators=(",", ":")) + "\n", encoding="utf-8")
+    return timings
+
+
 def make_voice(lines, folder):
     clips = folder / "voice"
     clips.mkdir(exist_ok=True)
@@ -67,7 +103,7 @@ def make_voice(lines, folder):
     secret = key() if missing else ""
     for i, l in enumerate(missing, 1):
         voice(l["speak"], secret, clips / f"{l['clip']}.mp3")
-        print(f"  voiced {i}/{len(missing)}: {l['speak']}")
+        print(f"  voiced {i}/{len(missing)}: {l['speak']}", flush=True)
     wanted = {f"{l['clip']}.mp3" for l in lines}
     for old in clips.glob("*.mp3"):
         if old.name not in wanted:
@@ -92,9 +128,13 @@ def build(theme_path, with_voice):
     folder = ROOT / t["folder"]
     folder.mkdir(parents=True, exist_ok=True)
     print(f"{t['title']}: {len(lines)} lines")
+    timings = {}
     if with_voice:
         make_voice(lines, folder)
-    have = sorted(l["clip"] for l in lines if (folder / "voice" / f"{l['clip']}.mp3").exists())
+        timings = make_timings(lines, folder)
+    elif (folder / "voice" / "timings.json").exists():
+        timings = json.loads((folder / "voice" / "timings.json").read_text(encoding="utf-8"))
+    have = {l["clip"]: timings.get(l["clip"], []) for l in lines if (folder / "voice" / f"{l['clip']}.mp3").exists()}
     page = (HERE / "template.html").read_text(encoding="utf-8")
     fills = {
         "{{TITLE}}": t["title"], "{{THEME_ID}}": t["id"], "{{FONTS}}": t["fonts"], "{{CSS_VARS}}": css_vars(t["colors"]),
@@ -102,7 +142,7 @@ def build(theme_path, with_voice):
         "{{ADD_RIGHT}}": t["buttons"]["addRight"], "{{ACT}}": t["buttons"]["act"],
         "{{WORDS}}": (HERE / "words.js").read_text(encoding="utf-8").strip(),
         "{{THEME}}": Path(theme_path).read_text(encoding="utf-8").strip(),
-        "{{CLIPS}}": json.dumps(have),
+        "{{CLIPS}}": json.dumps(have, sort_keys=True, separators=(",", ":")),
     }
     for k, v in fills.items():
         page = page.replace(k, v)
@@ -110,7 +150,8 @@ def build(theme_path, with_voice):
     big = [p.name for p in (folder / "voice").glob("*.mp3") if p.stat().st_size > LIMIT] if (folder / "voice").exists() else []
     if big:
         raise SystemExit(f"Clips over 1 MB: {big}")
-    print(f"  wrote {folder.relative_to(ROOT)}/index.html with {len(have)} of {len(lines)} clips")
+    timed = sum(1 for v in have.values() if v)
+    print(f"  wrote {folder.relative_to(ROOT)}/index.html with {len(have)} of {len(lines)} clips, {timed} timed")
 
 
 def main(argv):

@@ -14,7 +14,7 @@ Short videos and small games for children learning about the world, shared freel
 ## How to use it
 
 - **Videos:** follow the video link in a lesson's README to watch or download it. Videos are kept out of git, so they are not in the lesson folders; see [docs/media.md](docs/media.md).
-- **Games:** download the lesson folder and open `index.html` in a web browser. It works on a computer, tablet or phone, and needs an internet connection the first time, for its fonts and the three.js library. A voice reads out each challenge and sum, for children who cannot read yet.
+- **Games:** download the lesson folder and open `index.html` in a web browser. It works on a computer, tablet or phone, and needs an internet connection the first time, for its fonts and the three.js library. A voice reads out each challenge and sum, and each word lights up as it is said, so children who cannot read yet can play and start to read along.
 - **More games:** the maths games are made by a small [game factory](factory/) from a theme. A new theme, such as dinosaurs or rockets, makes a new game.
 
 ## How it is made
