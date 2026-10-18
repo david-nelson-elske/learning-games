@@ -30,7 +30,7 @@ python3 tools/media.py check   # are all listed files here and unchanged?
 `sync` and `fetch` use [rclone](https://rclone.org). Connect it to Google Drive once, as the owner of the Drive:
 
 ```sh
-rclone config create learning-games-drive drive scope=drive.file
+rclone config create learning-games-drive drive scope drive.file
 ```
 
 A browser opens to sign in. The `drive.file` scope lets rclone see only the files it created, nothing else in the Drive. To use another remote or folder, set `LEARNING_GAMES_REMOTE`, for example `LEARNING_GAMES_REMOTE="my-drive:Kids/Learning games"`.
