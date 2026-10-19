@@ -116,7 +116,7 @@ var THEME = {
     }
 
     return {
-      ground: ground, make: make, idle: idle, act: act, remove: remove, faceEachOther: false,
+      ground: ground, ghostDepth: 1.0, make: make, idle: idle, act: act, remove: remove, faceEachOther: false,
       sounds: {
         add: function () { kit.tone({f1: 220, f2: 440}); },
         remove: function () { kit.noise({len: 0.5, gain: 0.5}); },

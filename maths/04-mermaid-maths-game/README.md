@@ -10,8 +10,13 @@ The same game as [Tank Maths](../03-tank-maths-game/), with mermaids in two pool
 - **Splash!** makes every mermaid flick her tail and throw water at the other pool, just for fun.
 - **Challenges** at the top ask for things like "Make both sides equal" or "Show 2 + 4". Each one solved earns a star.
 
+**Three kinds of maths.** The switch at the top picks one:
+- **+** adds the two sides: "3 + 2 = 5".
+- **−** takes the right side away from the left: "5 − 2 = 3". Lines join each mermaid on the right to one on the left, and the ones left over glow: they are the answer. Take away more than there is and the answer goes below zero: "3 − 5 = −2", and two ghost mermaids appear upside down under the left side.
+- **< >** compares the sides: "3 < 5", "Three is smaller than five." The same lines show which side has more.
+
 **The voice** reads out each challenge, and the sum once you stop changing it, so a child who cannot read yet can play. Under the sum, the same sum is written in words, and each word lights up as the voice says it: numbers and reading in one game. Tap the challenge to hear it again. The 🔊 button turns the voice off.
 
-**What it teaches:** adding, taking away, comparing with <, > and =, that regrouping keeps the total, and reading number words by following along.
+**What it teaches:** adding, taking away (and a first look below zero), comparing with <, > and =, that regrouping keeps the total, and reading number words by following along.
 
 Made by the [game factory](../../factory/) from the theme [mermaids.js](../../factory/themes/mermaids.js). Built with [three.js](https://threejs.org) r128, loaded from cdnjs, and Google Fonts (Fredoka and Nunito). The voice clips are in [voice/](voice/).

@@ -7,6 +7,8 @@ One game, many looks. The template holds the game: two sides, a sum on top, addi
 | [tanks.js](themes/tanks.js) | Battle tanks on plinths | Blows up | Fire! Every tank shoots | [Tank Maths](../maths/03-tank-maths-game/) |
 | [mermaids.js](themes/mermaids.js) | Mermaids in two pools | Dives below the surface | Splash! Water flies to the other pool | [Mermaid Maths](../maths/04-mermaid-maths-game/) |
 
+Every game has three modes, chosen by a switch at the top: adding, taking away and comparing. In taking away and comparing, lines join each thing on the right to one on the left, and the things with no partner glow. Taking away below zero shows the answer as see-through ghosts, upside down under the left side; a theme sets how deep they hang with `ghostDepth`.
+
 ## Make a game
 
 ```sh
@@ -41,6 +43,7 @@ A theme is one JavaScript file that sets `THEME`. Copy a theme to start a new on
 | `sounds` | `add`, `remove` and `move` noises, made with `kit.tone` and `kit.noise` |
 | `faceEachOther` | `true` turns each side to face the other |
 | `enterFrom(side)` | Where a new thing comes from, relative to its place. Mermaids rise from below |
+| `ghostDepth` | How far under the floor the ghosts of a negative answer hang |
 
 The `kit` gives a theme what it needs to do this: `withEdges`, `burst`, `launch` (something that flies and lands), `ring` (a ripple), `flash`, `shake`, `tone`, `noise`, the colours, and `padCenter(side)`.
 

@@ -8,7 +8,7 @@ Short videos and small games for children learning about the world, shared freel
 | --- | --- | --- | --- |
 | 1 | [Counting tanks](maths/01-counting-tanks/) | Counting to ten, one object one number, adding groups, the plus and equals signs, swapping the order of a sum | 2:32 video |
 | 2 | [Tank quiz](maths/02-tank-quiz/) | Three quick questions with time to think: 2 + 1, 4 − 1, 3 + 3 | 0:55 video |
-| 3 | [Tank Maths](maths/03-tank-maths-game/) | A game: build, blow up and drag tanks between two sides to see adding, taking away and equal sides | Play in a browser |
+| 3 | [Tank Maths](maths/03-tank-maths-game/) | A game: build, blow up and drag tanks between two sides. Switch between adding, taking away (even below zero) and comparing | Play in a browser |
 | 4 | [Mermaid Maths](maths/04-mermaid-maths-game/) | The same game with mermaids: call them up, make them dive, and drag them between two pools | Play in a browser |
 
 ## How to use it

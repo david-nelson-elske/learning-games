@@ -217,7 +217,7 @@ var THEME = {
     }
 
     return {
-      ground: ground, groundIdle: groundIdle, make: make, idle: idle, act: act, remove: remove, faceEachOther: true,
+      ground: ground, ghostDepth: 1.3, groundIdle: groundIdle, make: make, idle: idle, act: act, remove: remove, faceEachOther: true,
       enterFrom: function () { return new THREE.Vector3(0, -1.6, 0); },
       sounds: {
         add: function () { kit.tone({type: 'sine', f1: 330, f2: 880, len: 0.22, gain: 0.12}); },
